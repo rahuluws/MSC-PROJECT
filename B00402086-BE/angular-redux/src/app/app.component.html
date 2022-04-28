@@ -1,0 +1,76 @@
+<div class="container">
+    <ngx-spinner bdColor="rgba(0, 0, 0, 1)" template="<img src='../assets/loader.gif' />">
+    </ngx-spinner>
+    <h2>Book Form</h2>
+    <form #f="ngForm" novalidate (ngSubmit)="save(f)">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" [ngModel]="activeBook?.title" placeholder="Enter Title" name="title" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" class="form-control" id="author" [ngModel]="activeBook?.author" placeholder="Enter Author" name="author" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" [ngModel]="activeBook?.price" placeholder="Enter Price" name="price" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <label for="publisher">Publisher:</label>
+            <input type="text" class="form-control" id="publisher" [ngModel]="activeBook?.publisher" placeholder="Enter Publisher" name="publisher" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <input type="text" class="form-control" id="category" [ngModel]="activeBook?.category" placeholder="Enter Category" name="category" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <label for="publishedDate">Published Date:</label>
+            <input type="text" class="form-control" id="publishedDate" [ngModel]="activeBook?.publishedDate" placeholder="Enter Published Date" name="publishedDate" autocomplete="off" required>
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="f.invalid">{{activeBook?._id ? 'UPDATE' : 'ADD'  }}</button>
+        <button style="margin-left: 10px;" class=" btn btn-default " type="button " (click)="actions.resetActive() " *ngIf="activeBook?._id ">ADD NEW</button>
+    </form>
+    <div class="table-holder">
+        <ng-container *ngIf="{bookList : books$ | async} as data;">
+            <ng-container *ngIf="data?.bookList && data?.bookList?.list?.length; then movieTemp; else noMovieTemp"></ng-container>
+            <ng-template #movieTemp>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Price</th>
+                                <th>Publisher</th>
+                                <th>Category</th>
+                                <th>Published Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data.bookList?.list | paginate: { itemsPerPage: 10, currentPage: p }; let i=index" [ngClass]="{active: item?._id === active$?._id}" (click)="actions.setActiveBook(item?._id)">
+                                <td>{{i+1}}</td>
+                                <td>{{item?.title}}</td>
+                                <td>{{item?.author}}</td>
+                                <td>{{item?.price | currency:'£'}}</td>
+                                <td>{{item?.publisher}}</td>
+                                <td>{{item?.category}}</td>
+                                <th>{{item?.publishedDate}}</th>
+                                <th><button class="btn btn-xs btn-danger pull-right" (click)="actions.deleteBook(item?._id)">Delete</button></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </ng-template>
+            <ng-template #noMovieTemp>
+                <div class="error-template">
+                    <h1>
+                        Oops!</h1>
+                    <h2>
+                        No Data Found</h2>
+                </div>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>

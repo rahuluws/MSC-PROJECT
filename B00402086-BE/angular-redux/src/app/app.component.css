@@ -1,0 +1,12 @@
+.error-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.table-holder {
+    margin-top: 50px;
+}
