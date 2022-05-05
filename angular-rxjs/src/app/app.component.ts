@@ -27,6 +27,8 @@ export class AppComponent {
       if (res && res.length) {
         this.books = res;
         this.spinner.hide();
+      } else {
+        this.spinner.hide();
       }
     });
   }
