@@ -29,4 +29,8 @@ For running the server run the command "node server.js" inside the B00402086-BE 
  
  
  
+ Note:- Make sure all the prerequisites steps has been done before running the applications.
+ 
+ 
+ 
 
